@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+// Importacion para el manejo del https
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
 // Modulos
@@ -13,8 +15,9 @@ import { GifsModule } from './gifs/gifs.module';
   ],
   imports: [ // Modulos
     BrowserModule,
+    HttpClientModule,
     SharedModule,
-    GifsModule
+    GifsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 // Componentes
 import { SidebarComponent } from './sidebar/sidebar.component';
 
-
-
 @NgModule({
   declarations: [
     SidebarComponent

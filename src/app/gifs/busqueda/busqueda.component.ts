@@ -21,7 +21,15 @@ export class BusquedaComponent {
   }
   buscar(){
     const valor = this.txtBuscar.nativeElement.value;
+
+    // Restringir insercciones vacias
+    if(valor.trim().length === 0 ){
+      return;
+    }
     this.gifsService.buscarGifs(valor);
+
+    // Limpiar el imput
+    this.txtBuscar.nativeElement.value = '';
   }
 
 
