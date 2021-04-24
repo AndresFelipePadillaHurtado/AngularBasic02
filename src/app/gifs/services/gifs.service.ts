@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { SerchGifsResponse, Gifs } from '../interfaces/gifs.interfaces';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { SerchGifsResponse, Gifs } from '../interfaces/gifs.interfaces';
 export class GifsService {
 
   private apiKey: string = 'U7cPWCKMpLn8ZCiqrwhjiNtXZc44rrxr';
+  private servicioURL:string = 'https://api.giphy.com/v1/gifs';
   private _historial: string[] = [];
   public resultados: Gifs[] = [];
 
@@ -41,11 +42,16 @@ export class GifsService {
       // Guardar en el localStorage el histrorial de busqueda
       localStorage.setItem('historial', JSON.stringify( this._historial ));
     }
+
+    // Uso de HttpParams
+    const params = new HttpParams()
+    .set('api_key', this.apiKey)
+    .set('limit', '10')
+    .set('q', query)
     
     // Usar el httpmodule nos ofrece mas funcionalidades a los observables propios de RXJS
-    this.http.get<SerchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=U7cPWCKMpLn8ZCiqrwhjiNtXZc44rrxr&q=${query}&limit=10`)
+    this.http.get<SerchGifsResponse>(`${this.servicioURL}/search`, { params })
     .subscribe( (resp) => {
-        console.log(resp.data); // Esta data hay que almacenarla en una propiedad
         this.resultados = resp.data; // Asignar la respuesta al resultado
         // Guurdar en el LocalStorage el resultado del ultimo resultado
       localStorage.setItem('resultados', JSON.stringify(this.resultados));
