@@ -17,6 +17,13 @@ export class GifsService {
 
   // Inyectar un el servcio
   constructor(private http:HttpClient){
+
+    // Validar si hay informacion guardada en el localstorage
+    this._historial = JSON.parse(localStorage.getItem('historial')!) || [];
+    this.resultados = JSON.parse(localStorage.getItem('resultados')!) || [];
+    // if( localStorage.getItem('historial')){
+    //   this._historial = JSON.parse(localStorage.getItem('historial')!);
+    // }
   }
 
   // Metodos
@@ -30,6 +37,9 @@ export class GifsService {
       this._historial.unshift( query );
       // Obtener los primeros 10
       this._historial = this._historial.slice(0,10);
+
+      // Guardar en el localStorage el histrorial de busqueda
+      localStorage.setItem('historial', JSON.stringify( this._historial ));
     }
     
     // Usar el httpmodule nos ofrece mas funcionalidades a los observables propios de RXJS
@@ -37,6 +47,8 @@ export class GifsService {
     .subscribe( (resp) => {
         console.log(resp.data); // Esta data hay que almacenarla en una propiedad
         this.resultados = resp.data; // Asignar la respuesta al resultado
+        // Guurdar en el LocalStorage el resultado del ultimo resultado
+      localStorage.setItem('resultados', JSON.stringify(this.resultados));
     });
 
   }
